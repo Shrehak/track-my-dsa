@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track My DSA</title>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Track My DSA</h1>
+    <p>Your personal problem-solving tracker</p>
+    <button id="themeToggle">Toggle Dark Mode</button>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Add Problem</h2>
+      <form id="logForm" class="form-grid">
+        <input type="date" id="date" />
+        <select id="topic">
+          <option>Arrays</option>
+          <option>Strings</option>
+          <option>Trees</option>
+          <option>Graphs</option>
+          <option>DP</option>
+          <option>Math</option>
+        </select>
+        <select id="difficulty">
+          <option>Easy</option>
+          <option>Medium</option>
+          <option>Hard</option>
+        </select>
+        <input type="text" id="problem" placeholder="Problem Name" required />
+        <textarea id="notes" placeholder="Confusion Notes..."></textarea>
+        <button type="submit" class="submit-btn">Add</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Daily Streak (7 Days)</h2>
+      <div id="streakDisplay"></div>
+    </section>
+
+    <section class="card">
+      <h2>Topic Heatmap</h2>
+      <canvas id="chartCanvas"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>Last 7 Reflections</h2>
+      <ul id="reflectionList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>XP & Level</h2>
+      <p id="xpStats"></p>
+    </section>
+
+    <section class="card">
+      <h2>Today's Study Planner</h2>
+      <input type="number" id="studyTime" placeholder="Time in mins" />
+      <button onclick="generatePlan()">Plan</button>
+      <p id="planOutput"></p>
+    </section>
+  </main>
+
+  <!-- JS Scripts -->
+  <script src="data.js"></script>
+  <script src="xp.js"></script>
+  <script src="planner.js"></script>
+  <script src="chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
