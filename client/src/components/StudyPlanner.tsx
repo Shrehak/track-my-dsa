@@ -52,7 +52,7 @@ export const StudyPlanner: React.FC = () => {
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '28px' }}>
       {/* Header */}
-      <div style={{ borderBottom: '2px solid #000000', paddingBottom: '16px' }}>
+      <div style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '16px' }}>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 900 }}>Algorithmic Study Planner</h2>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
           SCHEDULE BALANCING URGENT REVISIONS AND WEAK-DOMAIN INTERVENTIONS
@@ -116,7 +116,7 @@ export const StudyPlanner: React.FC = () => {
         <div
           className="glass-card-thick"
           style={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'var(--surface)',
           }}
         >
           <div
@@ -124,7 +124,7 @@ export const StudyPlanner: React.FC = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'baseline',
-              borderBottom: '2px solid #000000',
+              borderBottom: '2px solid var(--border-color)',
               paddingBottom: '16px',
               marginBottom: '20px',
             }}
@@ -142,9 +142,9 @@ export const StudyPlanner: React.FC = () => {
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.85rem',
                 fontWeight: 700,
-                border: '1px solid #000000',
+                border: '1px solid var(--border-color)',
                 padding: '4px 10px',
-                backgroundColor: '#F5F5F5',
+                backgroundColor: 'var(--surface-soft)',
               }}
             >
               +{plan.estimatedXP} POTENTIAL XP
@@ -161,8 +161,9 @@ export const StudyPlanner: React.FC = () => {
                   onClick={() => toggleTask(index)}
                   style={{
                     padding: '16px',
-                    border: '1px solid #000000',
-                    backgroundColor: isChecked ? '#F5F5F5' : '#FFFFFF',
+                    border: '1px solid var(--border-color)',
+                    backgroundColor: isChecked ? 'var(--surface-soft)' : 'var(--surface)',
+                    borderRadius: '10px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -174,9 +175,10 @@ export const StudyPlanner: React.FC = () => {
                       style={{
                         width: '20px',
                         height: '20px',
-                        border: '2px solid #000000',
-                        backgroundColor: isChecked ? '#000000' : '#FFFFFF',
-                        color: '#FFFFFF',
+                        border: '2px solid var(--border-color)',
+                        backgroundColor: isChecked ? 'var(--brand)' : 'var(--surface)',
+                        color: 'var(--brand-contrast)',
+                        borderRadius: '6px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -226,14 +228,14 @@ export const StudyPlanner: React.FC = () => {
           </div>
 
           {/* Completion Action */}
-          <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '2px solid #000000' }}>
+          <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '2px solid var(--border-color)' }}>
             {sessionCompleted ? (
               <div
                 style={{
                   textAlign: 'center',
                   padding: '16px',
-                  backgroundColor: '#000000',
-                  color: '#FFFFFF',
+                  backgroundColor: 'var(--brand)',
+                  color: 'var(--brand-contrast)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.9rem',
                   fontWeight: 700,

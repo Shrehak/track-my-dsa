@@ -47,7 +47,7 @@ export const App: React.FC = () => {
   }, [authLoading, user]);
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF' }}>
+    <div className="app-shell">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -58,7 +58,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <main style={{ flex: 1, maxWidth: '1180px', width: '100%', margin: '0 auto', padding: '36px 24px 64px' }}>
+      <main className="app-main">
         {activeTab === 'dashboard' && (
           <Dashboard
             stats={dashboardStats}
@@ -88,32 +88,19 @@ export const App: React.FC = () => {
         {activeTab === 'planner' && <StudyPlanner />}
       </main>
 
-      {/* Editorial Footer */}
-      <footer
-        style={{
-          borderTop: '2px solid #000000',
-          padding: '24px',
-          textAlign: 'center',
-          backgroundColor: '#FFFFFF',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.78rem',
-          color: 'var(--text-muted)',
-        }}
-      >
-        <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-          <div>
-            <strong>TRACK MY DSA</strong> // EDITORIAL RETENTION SYSTEM (SUPERMEMO SM-2)
-          </div>
-          <div style={{ display: 'flex', gap: '16px' }}>
-            <span>REACT 18 + NODE.JS + PRISMA ORM</span>
-            <span>•</span>
+      <footer className="app-footer">
+        <div className="footer-inner">
+          <div><strong>Track My DSA</strong> · Powered by spaced repetition</div>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <span>React · Node.js · Prisma</span>
+            <span>·</span>
             <a
               href="https://github.com/Shrehak/track-my-dsa"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#000000', textDecoration: 'underline' }}
+              className="footer-link"
             >
-              SOURCE REPOSITORY
+              Source code
             </a>
           </div>
         </div>

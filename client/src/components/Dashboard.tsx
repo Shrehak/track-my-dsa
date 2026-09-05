@@ -19,8 +19,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   if (loading || !stats) {
     return (
-      <div style={{ textAlign: 'center', padding: '100px 20px', fontFamily: 'var(--font-mono)' }}>
-        <p style={{ letterSpacing: '0.1em' }}>[ INITIALIZING RETENTION ENGINE... ]</p>
+      <div style={{ textAlign: 'center', padding: '100px 20px', color: 'var(--text-muted)' }}>
+        <p>Loading your dashboard…</p>
       </div>
     );
   }
@@ -31,34 +31,32 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '36px' }}>
-      {/* Editorial Headline Hero */}
-      <div style={{ borderBottom: '2px solid #000000', paddingBottom: '24px' }}>
+      <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '28px' }}>
         <span
           style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.78rem',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
+            fontWeight: 650,
             color: 'var(--text-muted)',
             display: 'block',
             marginBottom: '8px',
           }}
         >
-          Candidate Log // {user.name}
+          Welcome back, {user.name}
         </span>
         <h1
           style={{
-            fontSize: '3.2rem',
-            lineHeight: 1.05,
-            fontWeight: 900,
-            letterSpacing: '-0.03em',
+            fontSize: 'clamp(2.2rem, 5vw, 3.35rem)',
+            lineHeight: 1.08,
+            fontWeight: 780,
+            letterSpacing: '-0.045em',
             marginBottom: '12px',
           }}
         >
-          Daily Revision & Mastery.
+          Keep your problem-solving skills fresh.
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '680px' }}>
-          Reinforcing algorithmic intuition through systematic spaced repetition. Every problem logged is mathematically scheduled to prevent forgetting decay.
+          Track solved problems, review them at the right time, and turn short-term practice into lasting pattern recognition.
         </p>
 
         {/* Action Row */}
@@ -71,15 +69,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
           ) : (
             <div
               style={{
-                fontFamily: 'var(--font-mono)',
                 fontSize: '0.85rem',
                 padding: '10px 16px',
-                border: '1px solid #000000',
-                backgroundColor: '#F5F5F5',
+                border: '1px solid var(--border-color)',
+                borderRadius: '10px',
+                backgroundColor: 'var(--surface-soft)',
                 fontWeight: 600,
               }}
             >
-              [ ALL REVISIONS COMPLETED TODAY ]
+              All revisions completed today ✓
             </div>
           )}
           <button className="btn btn-secondary" onClick={onOpenAddModal}>
@@ -109,7 +107,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               marginBottom: '12px',
             }}
           >
-            [ 01 // TOTAL SOLVED ]
+            Total solved
           </div>
           <div
             style={{
@@ -129,10 +127,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
         {/* Due Today */}
         <div
-          className="glass-card-thick"
+          className={counts.due > 0 ? 'glass-card-thick card-inverted' : 'glass-card-thick'}
           style={{
-            backgroundColor: counts.due > 0 ? '#000000' : '#FFFFFF',
-            color: counts.due > 0 ? '#FFFFFF' : '#000000',
+            color: counts.due > 0 ? 'white' : 'var(--text-primary)',
           }}
         >
           <div
@@ -141,11 +138,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
               fontSize: '0.75rem',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: counts.due > 0 ? '#E5E5E5' : 'var(--text-muted)',
+              color: counts.due > 0 ? 'rgba(255,255,255,.78)' : 'var(--text-muted)',
               marginBottom: '12px',
             }}
           >
-            [ 02 // REVISIONS DUE ]
+            Revisions due
           </div>
           <div
             style={{
@@ -154,7 +151,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               fontWeight: 900,
               lineHeight: 1,
               marginBottom: '8px',
-              color: counts.due > 0 ? '#FFFFFF' : '#000000',
+              color: counts.due > 0 ? 'white' : 'var(--text-primary)',
             }}
           >
             {counts.due}
@@ -163,7 +160,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.78rem',
-              color: counts.due > 0 ? '#D4D4D4' : 'var(--text-muted)',
+              color: counts.due > 0 ? 'rgba(255,255,255,.78)' : 'var(--text-muted)',
             }}
           >
             {counts.due > 0 ? 'Urgent memory reinforcement' : 'Zero backlog pending'}
@@ -182,7 +179,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               marginBottom: '12px',
             }}
           >
-            [ 03 // ACTIVE STREAK ]
+            Active streak
           </div>
           <div
             style={{
@@ -212,7 +209,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               marginBottom: '12px',
             }}
           >
-            [ 04 // RETENTION TIER ]
+            Retention level
           </div>
           <div
             style={{
@@ -244,7 +241,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div style={{ marginBottom: '18px' }}>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>7-Day Consistency Grid</h3>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-              PUNCHCARD LOG OF DAILY SOLVES
+              Your problem-solving activity this week
             </p>
           </div>
 
@@ -261,9 +258,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 key={day.date}
                 style={{
                   padding: '14px 6px',
-                  border: '1px solid #000000',
-                  backgroundColor: day.solved ? '#000000' : '#FFFFFF',
-                  color: day.solved ? '#FFFFFF' : '#000000',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '10px',
+                  backgroundColor: day.solved ? 'var(--brand)' : 'var(--surface-soft)',
+                  color: day.solved ? 'var(--brand-contrast)' : 'var(--text-secondary)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -289,7 +287,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div style={{ marginBottom: '18px' }}>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Difficulty Distribution</h3>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-              VOLUME ACROSS COMPLEXITY TIERS
+              Problems grouped by difficulty
             </p>
           </div>
 
@@ -300,31 +298,31 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 style={{
                   width: '100%',
                   height: '16px',
-                  border: '2px solid #000000',
+                  border: '2px solid var(--border-color)',
                   display: 'flex',
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--surface)',
                 }}
               >
                 <div
                   style={{
                     width: `${(difficultyBreakdown.Easy / counts.total) * 100}%`,
-                    backgroundColor: '#E5E5E5',
-                    borderRight: '1px solid #000000',
+                    backgroundColor: 'var(--success)',
+                    borderRight: '1px solid var(--surface)',
                   }}
                   title={`Easy: ${difficultyBreakdown.Easy}`}
                 />
                 <div
                   style={{
                     width: `${(difficultyBreakdown.Medium / counts.total) * 100}%`,
-                    backgroundColor: '#737373',
-                    borderRight: '1px solid #000000',
+                    backgroundColor: 'var(--warning)',
+                    borderRight: '1px solid var(--surface)',
                   }}
                   title={`Medium: ${difficultyBreakdown.Medium}`}
                 />
                 <div
                   style={{
                     width: `${(difficultyBreakdown.Hard / counts.total) * 100}%`,
-                    backgroundColor: '#000000',
+                    backgroundColor: 'var(--brand)',
                   }}
                   title={`Hard: ${difficultyBreakdown.Hard}`}
                 />
@@ -340,15 +338,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', border: '1px solid #000', backgroundColor: '#E5E5E5' }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--success)' }} />
                   <span>EASY: <strong>{difficultyBreakdown.Easy}</strong></span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', border: '1px solid #000', backgroundColor: '#737373' }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--warning)' }} />
                   <span>MEDIUM: <strong>{difficultyBreakdown.Medium}</strong></span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '10px', height: '10px', border: '1px solid #000', backgroundColor: '#000000' }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--danger)' }} />
                   <span>HARD: <strong>{difficultyBreakdown.Hard}</strong></span>
                 </div>
               </div>
@@ -358,8 +356,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.78rem',
                   padding: '10px 14px',
-                  backgroundColor: '#F5F5F5',
-                  border: '1px solid #E5E5E5',
+                  backgroundColor: 'var(--surface-soft)',
+                  border: '1px solid var(--border-light)',
                   color: 'var(--text-secondary)',
                 }}
               >
@@ -382,7 +380,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: '20px',
-            borderBottom: '1px solid #000000',
+            borderBottom: '1px solid var(--border-color)',
             paddingBottom: '14px',
           }}
         >
@@ -405,8 +403,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 key={r.id}
                 style={{
                   padding: '16px',
-                  border: '1px solid #000000',
-                  backgroundColor: '#FFFFFF',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: 'var(--surface)',
                 }}
               >
                 <div

@@ -57,11 +57,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <div
           style={{
             padding: '20px 28px',
-            borderBottom: '2px solid #000000',
+            borderBottom: '2px solid var(--border-color)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#F5F5F5',
+            backgroundColor: 'var(--surface-soft)',
           }}
         >
           <div>
@@ -85,7 +85,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             style={{
               background: 'none',
               border: 'none',
-              color: '#000000',
+              color: 'var(--text-primary)',
               cursor: 'pointer',
               padding: '4px',
             }}
@@ -99,8 +99,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div
             style={{
               padding: '16px',
-              border: '2px solid #000000',
-              backgroundColor: '#F5F5F5',
+              border: '2px solid var(--border-color)',
+              backgroundColor: 'var(--surface-soft)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -140,8 +140,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             <div
               style={{
                 padding: '10px 14px',
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
+                backgroundColor: 'var(--brand)',
+                color: 'var(--brand-contrast)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.82rem',
               }}
@@ -233,7 +233,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#000000',
+                color: 'var(--text-primary)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.78rem',
                 textDecoration: 'underline',

@@ -95,7 +95,7 @@ export const ProblemList: React.FC<ProblemListProps> = ({ onOpenAddModal }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'baseline',
-          borderBottom: '2px solid #000000',
+          borderBottom: '2px solid var(--border-color)',
           paddingBottom: '16px',
           flexWrap: 'wrap',
           gap: '14px',
@@ -229,8 +229,8 @@ export const ProblemList: React.FC<ProblemListProps> = ({ onOpenAddModal }) => {
             <thead>
               <tr
                 style={{
-                  borderBottom: '2px solid #000000',
-                  backgroundColor: '#F5F5F5',
+                  borderBottom: '2px solid var(--border-color)',
+                  backgroundColor: 'var(--surface-soft)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.74rem',
                   letterSpacing: '0.08em',
@@ -266,7 +266,7 @@ export const ProblemList: React.FC<ProblemListProps> = ({ onOpenAddModal }) => {
                     <tr
                       key={p.id}
                       style={{
-                        borderBottom: '1px solid #000000',
+                        borderBottom: '1px solid var(--border-color)',
                       }}
                     >
                       <td style={{ padding: '16px 20px' }}>
@@ -280,7 +280,7 @@ export const ProblemList: React.FC<ProblemListProps> = ({ onOpenAddModal }) => {
                                 href={p.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                style={{ color: '#000000' }}
+                                style={{ color: 'var(--text-primary)' }}
                                 title="Open URL"
                               >
                                 <ExternalLink size={13} />
@@ -353,7 +353,7 @@ export const ProblemList: React.FC<ProblemListProps> = ({ onOpenAddModal }) => {
                           style={{
                             background: 'none',
                             border: 'none',
-                            color: '#000000',
+                            color: 'var(--text-primary)',
                             cursor: 'pointer',
                             padding: '4px',
                           }}
@@ -373,8 +373,8 @@ export const ProblemList: React.FC<ProblemListProps> = ({ onOpenAddModal }) => {
         <div
           style={{
             padding: '14px 20px',
-            borderTop: '2px solid #000000',
-            backgroundColor: '#F5F5F5',
+            borderTop: '2px solid var(--border-color)',
+            backgroundColor: 'var(--surface-soft)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',

@@ -83,11 +83,11 @@ export const AddProblemModal: React.FC<AddProblemModalProps> = ({
         <div
           style={{
             padding: '20px 28px',
-            borderBottom: '2px solid #000000',
+            borderBottom: '2px solid var(--border-color)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#F5F5F5',
+            backgroundColor: 'var(--surface-soft)',
           }}
         >
           <div>
@@ -111,7 +111,7 @@ export const AddProblemModal: React.FC<AddProblemModalProps> = ({
             style={{
               background: 'none',
               border: 'none',
-              color: '#000000',
+              color: 'var(--text-primary)',
               cursor: 'pointer',
               padding: '4px',
             }}
@@ -126,8 +126,8 @@ export const AddProblemModal: React.FC<AddProblemModalProps> = ({
             <div
               style={{
                 padding: '10px 14px',
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
+                backgroundColor: 'var(--brand)',
+                color: 'var(--brand-contrast)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.82rem',
               }}
@@ -262,9 +262,10 @@ export const AddProblemModal: React.FC<AddProblemModalProps> = ({
                     fontFamily: 'var(--font-mono)',
                     fontSize: '0.85rem',
                     fontWeight: 700,
-                    border: '2px solid #000000',
-                    backgroundColor: confidence === val ? '#000000' : '#FFFFFF',
-                    color: confidence === val ? '#FFFFFF' : '#000000',
+                    border: '2px solid var(--border-color)',
+                    backgroundColor: confidence === val ? 'var(--brand)' : 'var(--surface)',
+                    color: confidence === val ? 'var(--brand-contrast)' : 'var(--text-primary)',
+                    borderRadius: '9px',
                     cursor: 'pointer',
                   }}
                 >

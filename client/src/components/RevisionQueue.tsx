@@ -119,7 +119,7 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'baseline',
-          borderBottom: '2px solid #000000',
+          borderBottom: '2px solid var(--border-color)',
           paddingBottom: '16px',
         }}
       >
@@ -134,9 +134,9 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
             fontFamily: 'var(--font-mono)',
             fontSize: '0.8rem',
             padding: '4px 10px',
-            border: '1px solid #000000',
-            backgroundColor: '#000000',
-            color: '#FFFFFF',
+            border: '1px solid var(--border-color)',
+            backgroundColor: 'var(--brand)',
+            color: 'var(--brand-contrast)',
             fontWeight: 700,
           }}
         >
@@ -150,7 +150,7 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
         style={{
           position: 'relative',
           padding: '36px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--surface)',
         }}
       >
         {/* Floating XP Toast */}
@@ -160,13 +160,13 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
               position: 'absolute',
               top: '20px',
               right: '20px',
-              backgroundColor: '#000000',
-              color: '#FFFFFF',
+              backgroundColor: 'var(--brand)',
+              color: 'var(--brand-contrast)',
               fontFamily: 'var(--font-mono)',
               padding: '6px 14px',
               fontSize: '0.85rem',
               fontWeight: 700,
-              border: '1px solid #000000',
+              border: '1px solid var(--border-color)',
             }}
           >
             [ +{xpCelebration} XP AWARDED ]
@@ -186,8 +186,8 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
               fontFamily: 'var(--font-mono)',
               fontSize: '0.75rem',
               padding: '3px 8px',
-              border: '1px solid #E5E5E5',
-              backgroundColor: '#F5F5F5',
+              border: '1px solid var(--border-light)',
+              backgroundColor: 'var(--surface-soft)',
             }}
           >
             INTERVAL: {currentProblem.interval}D
@@ -197,8 +197,8 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
               fontFamily: 'var(--font-mono)',
               fontSize: '0.75rem',
               padding: '3px 8px',
-              border: '1px solid #E5E5E5',
-              backgroundColor: '#F5F5F5',
+              border: '1px solid var(--border-light)',
+              backgroundColor: 'var(--surface-soft)',
             }}
           >
             REPS: {currentProblem.repetitionCount}
@@ -250,8 +250,8 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
               style={{
                 marginTop: '12px',
                 padding: '16px',
-                backgroundColor: '#F5F5F5',
-                border: '1px solid #000000',
+                backgroundColor: 'var(--surface-soft)',
+                border: '1px solid var(--border-color)',
                 fontSize: '0.95rem',
                 fontStyle: 'italic',
                 color: 'var(--text-secondary)',
@@ -288,7 +288,7 @@ export const RevisionQueue: React.FC<RevisionQueueProps> = ({ onReviewCompleted 
         </div>
 
         {/* SM-2 Outcome Action Matrix */}
-        <div style={{ marginTop: '28px', borderTop: '1px solid #000000', paddingTop: '20px' }}>
+        <div style={{ marginTop: '28px', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
           <label
             style={{
               fontFamily: 'var(--font-mono)',

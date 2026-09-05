@@ -12,6 +12,7 @@ import {
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { api } from '../services/api';
 import { TopicStat, DashboardStats } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 ChartJS.register(
   CategoryScale,
@@ -24,6 +25,7 @@ ChartJS.register(
 );
 
 export const AnalyticsView: React.FC = () => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState<boolean>(true);
   const [topicStats, setTopicStats] = useState<TopicStat[]>([]);
   const [recommendation, setRecommendation] = useState<string>('');
@@ -58,25 +60,28 @@ export const AnalyticsView: React.FC = () => {
     );
   }
 
-  // Pure Monochrome Bar Chart
+  const chartColors = theme === 'dark'
+    ? { text: '#bec7da', grid: '#293551', border: '#121a2e', primary: '#818cf8', secondary: '#4fd1a5', easy: '#4fd1a5', medium: '#f3b454', hard: '#fb7185' }
+    : { text: '#4c5870', grid: '#e9ecf3', border: '#ffffff', primary: '#5b5bd6', secondary: '#169b72', easy: '#169b72', medium: '#d97706', hard: '#dc4c64' };
+
   const barChartData = {
     labels: topicStats.map(t => t.topic),
     datasets: [
       {
         label: 'Total Solved',
         data: topicStats.map(t => t.totalProblems),
-        backgroundColor: '#000000',
-        borderColor: '#000000',
-        borderWidth: 1,
-        borderRadius: 0,
+        backgroundColor: chartColors.primary,
+        borderColor: chartColors.primary,
+        borderWidth: 0,
+        borderRadius: 6,
       },
       {
         label: 'Mastered',
         data: topicStats.map(t => t.masteredCount),
-        backgroundColor: '#A3A3A3',
-        borderColor: '#000000',
-        borderWidth: 1,
-        borderRadius: 0,
+        backgroundColor: chartColors.secondary,
+        borderColor: chartColors.secondary,
+        borderWidth: 0,
+        borderRadius: 6,
       },
     ],
   };
@@ -87,24 +92,23 @@ export const AnalyticsView: React.FC = () => {
       legend: {
         position: 'top' as const,
         labels: {
-          color: '#000000',
-          font: { family: 'JetBrains Mono', size: 11 },
+          color: chartColors.text,
+          font: { family: 'Inter', size: 11 },
         },
       },
     },
     scales: {
       x: {
-        grid: { color: '#E5E5E5' },
-        ticks: { color: '#000000', font: { family: 'JetBrains Mono', size: 10 } },
+        grid: { color: chartColors.grid },
+        ticks: { color: chartColors.text, font: { family: 'Inter', size: 10 } },
       },
       y: {
-        grid: { color: '#E5E5E5' },
-        ticks: { color: '#000000', font: { family: 'JetBrains Mono', size: 10 }, stepSize: 1 },
+        grid: { color: chartColors.grid },
+        ticks: { color: chartColors.text, font: { family: 'Inter', size: 10 }, stepSize: 1 },
       },
     },
   };
 
-  // Pure Monochrome Doughnut Chart
   const doughnutData = {
     labels: ['Easy', 'Medium', 'Hard'],
     datasets: [
@@ -114,8 +118,8 @@ export const AnalyticsView: React.FC = () => {
           dashboardStats.difficultyBreakdown.Medium,
           dashboardStats.difficultyBreakdown.Hard,
         ],
-        backgroundColor: ['#E5E5E5', '#737373', '#000000'],
-        borderColor: '#000000',
+        backgroundColor: [chartColors.easy, chartColors.medium, chartColors.hard],
+        borderColor: chartColors.border,
         borderWidth: 2,
       },
     ],
@@ -127,8 +131,8 @@ export const AnalyticsView: React.FC = () => {
       legend: {
         position: 'bottom' as const,
         labels: {
-          color: '#000000',
-          font: { family: 'JetBrains Mono', size: 11 },
+          color: chartColors.text,
+          font: { family: 'Inter', size: 11 },
         },
       },
     },
@@ -137,7 +141,7 @@ export const AnalyticsView: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       {/* Header */}
-      <div style={{ borderBottom: '2px solid #000000', paddingBottom: '16px' }}>
+      <div style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '16px' }}>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 900 }}>Analytics & Topic Diagnostics</h2>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
           COGNITIVE RETENTION AUDIT & TOPIC MASTERY METRICS
@@ -148,8 +152,8 @@ export const AnalyticsView: React.FC = () => {
       <div
         className="glass-card-thick"
         style={{
-          borderLeft: '8px solid #000000',
-          backgroundColor: '#F5F5F5',
+          borderLeft: '8px solid var(--brand)',
+          backgroundColor: 'var(--surface-soft)',
         }}
       >
         <span
@@ -210,7 +214,7 @@ export const AnalyticsView: React.FC = () => {
 
       {/* Detailed Diagnostic Table */}
       <div className="glass-card-thick" style={{ padding: 0, overflow: 'hidden' }}>
-        <div style={{ padding: '20px 24px', borderBottom: '2px solid #000000', backgroundColor: '#F5F5F5' }}>
+        <div style={{ padding: '20px 24px', borderBottom: '2px solid var(--border-color)', backgroundColor: 'var(--surface-soft)' }}>
           <h3 style={{ fontSize: '1.15rem', fontWeight: 800 }}>Topic Mastery Diagnostic Breakdown</h3>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px' }}>
             SCORE = 50% CONFIDENCE + 35% MASTERY RATIO - 15% OVERDUE PENALTY
@@ -222,8 +226,8 @@ export const AnalyticsView: React.FC = () => {
             <thead>
               <tr
                 style={{
-                  borderBottom: '2px solid #000000',
-                  backgroundColor: '#FFFFFF',
+                  borderBottom: '2px solid var(--border-color)',
+                  backgroundColor: 'var(--surface)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.74rem',
                   letterSpacing: '0.08em',
@@ -240,7 +244,7 @@ export const AnalyticsView: React.FC = () => {
             </thead>
             <tbody>
               {topicStats.map(t => (
-                <tr key={t.topic} style={{ borderBottom: '1px solid #000000' }}>
+                <tr key={t.topic} style={{ borderBottom: '1px solid var(--border-color)' }}>
                   <td style={{ padding: '14px 20px', fontWeight: 800, fontFamily: 'var(--font-display)', fontSize: '1rem' }}>
                     {t.topic}
                   </td>
@@ -259,15 +263,15 @@ export const AnalyticsView: React.FC = () => {
                         style={{
                           width: '80px',
                           height: '8px',
-                          border: '1px solid #000000',
-                          backgroundColor: '#FFFFFF',
+                          border: '1px solid var(--border-color)',
+                          backgroundColor: 'var(--surface)',
                         }}
                       >
                         <div
                           style={{
                             width: `${t.masteryScore}%`,
                             height: '100%',
-                            backgroundColor: '#000000',
+                            backgroundColor: 'var(--brand)',
                           }}
                         />
                       </div>
