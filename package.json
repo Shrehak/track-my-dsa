@@ -1,0 +1,33 @@
+{
+  "name": "track-my-dsa",
+  "version": "2.0.0",
+  "description": "Full-Stack DSA Progress Tracker with Spaced Repetition (SM-2) & Analytics",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build:server": "npm --prefix server run build",
+    "build:client": "npm --prefix client run build",
+    "build": "npm run build:server && npm run build:client",
+    "test:server": "npm --prefix server test",
+    "test": "npm run test:server",
+    "start": "npm --prefix server start"
+  },
+  "keywords": [
+    "dsa",
+    "leetcode",
+    "spaced-repetition",
+    "sm-2",
+    "full-stack",
+    "react",
+    "express",
+    "prisma"
+  ],
+  "author": "Shrehak",
+  "license": "MIT"
+}

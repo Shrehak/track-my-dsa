@@ -1,0 +1,45 @@
+name: Full-Stack CI Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install root & server dependencies
+        run: |
+          npm --prefix server install
+          npm --prefix client install
+
+      - name: Generate Prisma Client & Run DB Push
+        run: |
+          npm --prefix server run prisma:generate
+          npm --prefix server run prisma:push
+        env:
+          DATABASE_URL: "file:./dev.db"
+
+      - name: Run Backend Unit & Integration Tests
+        run: npm --prefix server test
+        env:
+          DATABASE_URL: "file:./dev.db"
+          JWT_SECRET: "ci-testing-secret-key-12345"
+
+      - name: Build Server
+        run: npm --prefix server run build
+
+      - name: Build Client
+        run: npm --prefix client run build

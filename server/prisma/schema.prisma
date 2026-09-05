@@ -1,0 +1,86 @@
+// Prisma schema for Track My DSA
+// Supports SQLite for instant local zero-setup dev & PostgreSQL for production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String        @id @default(uuid())
+  email          String        @unique
+  passwordHash   String
+  name           String
+  xp             Int           @default(0)
+  level          Int           @default(1)
+  streakCount    Int           @default(0)
+  lastActiveDate DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  problems       Problem[]
+  revisions      RevisionLog[]
+  studyPlans     StudyPlan[]
+}
+
+model Problem {
+  id               String        @id @default(uuid())
+  userId           String
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String
+  topic            String        // Arrays, Strings, Trees, Graphs, DP, Math, LinkedList, etc.
+  difficulty       String        // Easy, Medium, Hard
+  url              String?
+  notes            String?
+  confidence       Int           @default(3) // 1 to 5
+  attemptCount     Int           @default(1)
+  firstSolvedAt    DateTime      @default(now())
+  lastSolvedAt     DateTime      @default(now())
+  nextRevisionDate DateTime      @default(now())
+  interval         Int           @default(1) // in days
+  easeFactor       Float         @default(2.5) // SuperMemo SM-2 default
+  repetitionCount  Int           @default(0) // consecutive successful reviews
+  status           String        @default("LEARNING") // LEARNING, REVIEW_DUE, MASTERED
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  revisions        RevisionLog[]
+
+  @@index([userId, topic])
+  @@index([userId, status])
+  @@index([userId, nextRevisionDate])
+}
+
+model RevisionLog {
+  id           String   @id @default(uuid())
+  problemId    String
+  problem      Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewedAt   DateTime @default(now())
+  confidence   Int      // 1 to 5
+  timeSpentMin Int?
+  result       String   // AGAIN, HARD, GOOD, EASY
+  notes        String?
+  interval     Int      // scheduled interval in days
+  easeFactor   Float    // ease factor after review
+
+  @@index([userId, reviewedAt])
+  @@index([problemId])
+}
+
+model StudyPlan {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetMinutes Int
+  suggestedMix  String   // JSON string of suggested problem categories/items
+  completed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+}
