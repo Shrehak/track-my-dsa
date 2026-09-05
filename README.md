@@ -1,6 +1,6 @@
 # ⚡ Track My DSA 2.0
 
-> An industry-grade, full-stack DSA progress tracker powered by an **enhanced SuperMemo (SM-2) Spaced-Repetition Algorithm**, **Topic Mastery Analytics**, and **Dynamic Study Session Planning**.
+> A full-stack DSA progress tracker powered by a **modified SuperMemo (SM-2) spaced-repetition algorithm**, **topic mastery analytics**, and **dynamic study-session planning**.
 
 [![Full-Stack CI Pipeline](https://github.com/Shrehak/track-my-dsa/actions/workflows/ci.yml/badge.svg)](https://github.com/Shrehak/track-my-dsa/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -15,11 +15,11 @@
 Preparing for software engineering interviews often leads to the **"forgetting curve" trap**: candidates solve hundreds of LeetCode problems only to blank out on standard DP, graph, or tree patterns a month later.
 
 **Track My DSA 2.0** solves this by combining full-stack architecture with cognitive science:
-1. **Algorithmic Spaced Repetition (Modified SM-2)**: Dynamically computes expanding intervals and difficulty-weighted easiness factors to guarantee long-term neural retention.
+1. **Algorithmic Spaced Repetition (Modified SM-2)**: Dynamically computes expanding intervals and difficulty-weighted easiness factors to support systematic revision.
 2. **Backlog Urgency Scoring**: Prioritizes overdue problems based on days elapsed since the forgetting threshold and initial confidence level.
 3. **Weak-Topic Diagnostics**: Calculates topic mastery scores ($0-100\%$) and provides automated prescriptions for weak domains before interview rounds.
 4. **Algorithmic Study Planner**: Prescribes balanced practice sessions based on available minutes, overdue revisions, and weak-topic drills.
-5. **Production-Ready Engineering**: Type-safe end-to-end (TypeScript), RESTful API with Zod validation, JWT authentication, centralized error handling, Prisma ORM (SQLite / PostgreSQL), and 100% passing test coverage with Jest and Supertest.
+5. **Full-Stack Engineering**: End-to-end TypeScript, RESTful APIs with Zod validation, JWT authentication, centralized error handling, PostgreSQL persistence with Prisma, and automated backend and frontend tests.
 
 ---
 
@@ -36,7 +36,7 @@ graph TD
     end
 
     subgraph Backend ["Backend API (Node.js + Express + TypeScript)"]
-        AuthMiddleware["JWT Authentication & RBAC"]
+        AuthMiddleware["JWT Authentication & Resource Ownership"]
         ZodValidator["Zod Request Validation"]
         Controllers["REST Controllers (Problems, Analytics, Planner)"]
         
@@ -49,7 +49,7 @@ graph TD
 
     subgraph Database ["Persistence Layer (Prisma ORM)"]
         PrismaClient["Prisma Client"]
-        DB[("PostgreSQL / SQLite")]
+        DB[("PostgreSQL")]
     end
 
     UI -->|HTTP / REST + Bearer Token| AuthMiddleware
@@ -121,8 +121,8 @@ Topics with Mastery Score $< 55\%$ are flagged as **Weak Areas** with automated 
 
 - **Frontend**: React 18, Vite, TypeScript, Lucide Icons, Chart.js, React-ChartJS-2, Modern Glassmorphism CSS.
 - **Backend**: Node.js, Express, TypeScript, Zod, bcryptjs, jsonwebtoken, CORS.
-- **ORM & Database**: Prisma ORM, SQLite (local zero-setup), PostgreSQL (production compatible).
-- **Testing**: Jest, Supertest, ts-jest (19 automated unit & integration tests).
+- **ORM & Database**: Prisma ORM and PostgreSQL, with indexed user, topic, status, revision-date, and activity fields.
+- **Testing**: Jest, Supertest, ts-jest, Vitest, and React Testing Library for unit, API-integration, and interface tests.
 - **CI/CD**: GitHub Actions (`.github/workflows/ci.yml`).
 
 ---
@@ -130,27 +130,24 @@ Topics with Mastery Score $< 55\%$ are flagged as **Weak Areas** with automated 
 ## 🚀 Quickstart & Local Setup
 
 ### Prerequisites
-- Node.js 18+ and npm installed
+- Node.js 20.19+, npm, and Docker Desktop
 
 ### 1. Clone & Install Dependencies
 ```bash
 git clone https://github.com/Shrehak/track-my-dsa.git
 cd track-my-dsa
 
-# Install server dependencies
-cd server
-npm install
-
-# Install client dependencies
-cd ../client
 npm install
 ```
 
-### 2. Setup Database & Seed
+### 2. Configure and start PostgreSQL
 ```bash
-cd ../server
+cp server/.env.example server/.env
+docker compose up -d
+
+cd server
 npx prisma generate
-npx prisma db push
+npx prisma migrate deploy
 npx tsx prisma/seed.ts
 ```
 
@@ -173,6 +170,27 @@ npm run dev
 
 Open your browser at **`http://localhost:5173`**.  
 Click **"1-Click Demo"** for instant access with pre-seeded data!
+
+---
+
+## 🌐 Production Deployment
+
+The repository includes a Render Blueprint for the Express API and PostgreSQL database, plus Vercel configuration for the Vite frontend.
+
+### 1. Deploy the API and database on Render
+
+1. In Render, select **New → Blueprint** and connect this repository.
+2. Render reads `render.yaml` and creates `track-my-dsa-api` and `track-my-dsa-db`.
+3. Set `CLIENT_ORIGIN` to the final Vercel URL after the frontend is deployed.
+4. Confirm that `https://<your-render-service>/api/health` returns `status: ok`.
+
+### 2. Deploy the frontend on Vercel
+
+1. Import this repository into Vercel and select `client` as the Root Directory.
+2. Add `VITE_API_BASE_URL=https://<your-render-service>/api` to the production environment variables.
+3. Deploy, then copy the Vercel URL into the Render `CLIENT_ORIGIN` variable and redeploy the API.
+
+Never commit `.env` files. Use a unique production `JWT_SECRET` of at least 32 characters.
 
 ---
 

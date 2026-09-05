@@ -1,12 +1,12 @@
 // Prisma schema for Track My DSA
-// Supports SQLite for instant local zero-setup dev & PostgreSQL for production
+// PostgreSQL schema used consistently in development, CI, and production.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -25,6 +25,8 @@ model User {
   problems       Problem[]
   revisions      RevisionLog[]
   studyPlans     StudyPlan[]
+
+  @@index([createdAt])
 }
 
 model Problem {

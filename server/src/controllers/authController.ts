@@ -6,6 +6,7 @@ import { generateToken } from '../utils/jwt.js';
 import { AppError } from '../middleware/errorHandler.js';
 import { AuthRequest } from '../middleware/auth.js';
 import { calculateLevel } from '../algorithms/spacedRepetition.js';
+import { randomUUID } from 'crypto';
 
 export const registerSchema = z.object({
   body: z.object({
@@ -25,8 +26,9 @@ export const loginSchema = z.object({
 export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const { name, email, password } = req.body;
+    const normalizedEmail = email.trim().toLowerCase();
 
-    const existing = await prisma.user.findUnique({ where: { email } });
+    const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (existing) {
       throw new AppError('Email is already registered', 409);
     }
@@ -34,8 +36,8 @@ export async function register(req: Request, res: Response, next: NextFunction):
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
+        name: name.trim(),
+        email: normalizedEmail,
         passwordHash,
         xp: 0,
         level: 1,
@@ -72,8 +74,9 @@ export async function register(req: Request, res: Response, next: NextFunction):
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = email.trim().toLowerCase();
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (!user) {
       throw new AppError('Invalid email or password', 401);
     }
@@ -107,25 +110,30 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 
 export async function demoLogin(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const demoEmail = 'demo@trackmydsa.dev';
-    let demoUser = await prisma.user.findUnique({ where: { email: demoEmail } });
+    const expiration = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    await prisma.user.deleteMany({
+      where: {
+        email: { startsWith: 'demo+' },
+        createdAt: { lt: expiration },
+      },
+    });
 
-    if (!demoUser) {
-      const passwordHash = await bcrypt.hash('demopassword123', 10);
-      demoUser = await prisma.user.create({
-        data: {
-          name: 'Demo Candidate',
-          email: demoEmail,
-          passwordHash,
-          xp: 285,
-          level: 3,
-          streakCount: 5,
-          lastActiveDate: new Date(),
-        },
-      });
+    const demoEmail = `demo+${randomUUID()}@trackmydsa.dev`;
+    const passwordHash = await bcrypt.hash(randomUUID(), 10);
+    const demoUser = await prisma.user.create({
+      data: {
+        name: 'Demo Candidate',
+        email: demoEmail,
+        passwordHash,
+        xp: 285,
+        level: 3,
+        streakCount: 5,
+        lastActiveDate: new Date(),
+      },
+    });
 
-      // Populate rich demo problems for immediate showcase
-      const sampleProblems = [
+    // Every reviewer receives an isolated, pre-seeded demo workspace.
+    const sampleProblems = [
         {
           userId: demoUser.id,
           title: 'Two Sum',
@@ -216,12 +224,9 @@ export async function demoLogin(_req: Request, res: Response, next: NextFunction
           status: 'REVIEW_DUE',
           nextRevisionDate: new Date(Date.now() + 3 * 86400000),
         },
-      ];
+    ];
 
-      for (const p of sampleProblems) {
-        await prisma.problem.create({ data: p });
-      }
-    }
+    await prisma.problem.createMany({ data: sampleProblems });
 
     const token = generateToken({ userId: demoUser.id, email: demoUser.email });
 

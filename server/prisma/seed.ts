@@ -6,18 +6,31 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database...');
 
-  // Clean existing demo data if any
-  await prisma.revisionLog.deleteMany();
-  await prisma.problem.deleteMany();
-  await prisma.studyPlan.deleteMany();
-  await prisma.user.deleteMany();
-
+  const seedEmail = 'seed-demo@trackmydsa.dev';
   const passwordHash = await bcrypt.hash('demopassword123', 10);
 
-  const demoUser = await prisma.user.create({
-    data: {
+  const existingSeedUser = await prisma.user.findUnique({ where: { email: seedEmail } });
+  if (existingSeedUser) {
+    await prisma.$transaction([
+      prisma.revisionLog.deleteMany({ where: { userId: existingSeedUser.id } }),
+      prisma.problem.deleteMany({ where: { userId: existingSeedUser.id } }),
+      prisma.studyPlan.deleteMany({ where: { userId: existingSeedUser.id } }),
+    ]);
+  }
+
+  const demoUser = await prisma.user.upsert({
+    where: { email: seedEmail },
+    create: {
       name: 'Demo Candidate',
-      email: 'demo@trackmydsa.dev',
+      email: seedEmail,
+      passwordHash,
+      xp: 380,
+      level: 4,
+      streakCount: 6,
+      lastActiveDate: new Date(),
+    },
+    update: {
+      name: 'Demo Candidate',
       passwordHash,
       xp: 380,
       level: 4,

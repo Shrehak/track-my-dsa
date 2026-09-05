@@ -116,7 +116,7 @@ export async function getProblems(req: AuthRequest, res: Response, next: NextFun
 export async function getProblemById(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = req.user!.userId;
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     const problem = await prisma.problem.findFirst({
       where: { id, userId },
@@ -218,7 +218,7 @@ export async function createProblem(req: AuthRequest, res: Response, next: NextF
 export async function updateProblem(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = req.user!.userId;
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { title, topic, difficulty, url, notes, confidence } = req.body;
 
     const existing = await prisma.problem.findFirst({ where: { id, userId } });
@@ -247,7 +247,7 @@ export async function updateProblem(req: AuthRequest, res: Response, next: NextF
 export async function deleteProblem(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = req.user!.userId;
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     const existing = await prisma.problem.findFirst({ where: { id, userId } });
     if (!existing) {
@@ -265,7 +265,7 @@ export async function deleteProblem(req: AuthRequest, res: Response, next: NextF
 export async function reviewProblem(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = req.user!.userId;
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { result, confidence, timeSpentMin, notes } = req.body as {
       result: ReviewResult;
       confidence: number;

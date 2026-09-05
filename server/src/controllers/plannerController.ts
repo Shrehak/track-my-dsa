@@ -143,7 +143,7 @@ export async function generatePlan(req: AuthRequest, res: Response, next: NextFu
 export async function completePlan(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = req.user!.userId;
-    const { planId } = req.params;
+    const planId = req.params.planId as string;
 
     const plan = await prisma.studyPlan.findFirst({
       where: { id: planId, userId },

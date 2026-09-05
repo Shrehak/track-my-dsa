@@ -33,7 +33,7 @@ describe('REST API Endpoints Integration Tests', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
-    expect(res.body.data.user.email).toBe('demo@trackmydsa.dev');
+    expect(res.body.data.user.email).toMatch(/^demo\+[0-9a-f-]+@trackmydsa\.dev$/);
   });
 
   test('GET /api/problems returns paginated problems', async () => {
@@ -85,6 +85,25 @@ describe('REST API Endpoints Integration Tests', () => {
     expect(res.body.data.revision).toBeDefined();
     expect(res.body.data.problem.repetitionCount).toBeGreaterThan(0);
     expect(res.body.data.xpEarned).toBe(15);
+  });
+
+  test('prevents one user from accessing another user\'s problem', async () => {
+    const email = `isolation-${Date.now()}@example.com`;
+    const registration = await request(app).post('/api/auth/register').send({
+      name: 'Isolation Test User',
+      email,
+      password: 'secure-password-123',
+    });
+
+    expect(registration.status).toBe(201);
+    const secondUserToken = registration.body.data.token;
+
+    const res = await request(app)
+      .get(`/api/problems/${testProblemId}`)
+      .set('Authorization', `Bearer ${secondUserToken}`);
+
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
   });
 
   test('GET /api/analytics/dashboard returns rich statistics', async () => {

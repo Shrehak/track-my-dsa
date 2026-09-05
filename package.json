@@ -15,7 +15,8 @@
     "build:client": "npm --prefix client run build",
     "build": "npm run build:server && npm run build:client",
     "test:server": "npm --prefix server test",
-    "test": "npm run test:server",
+    "test:client": "npm --prefix client test",
+    "test": "npm run test:server && npm run test:client",
     "start": "npm --prefix server start"
   },
   "keywords": [
@@ -29,5 +30,11 @@
     "prisma"
   ],
   "author": "Shrehak",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.0"
+  }
 }
